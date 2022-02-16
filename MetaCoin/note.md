@@ -244,9 +244,73 @@ module.exports = {
 host 和 port 配置 ganache 的连接地址和端口。
 
 3. 然后，通过控制台命令来部署合约：
-   
+
 ```shell
 truffle migrate
 ```
 
 4. 然后可以在ganache中看到合约部署的信息。
+
+## 与合约进行交互
+
+使用 web3 js api 可以直接与合约进行交互，大多数 web3 api都返回一个Promise对象，可以使用 `await` 来将异步转同步，比如获取账号，web3 为 `web3.eth.getAccounts()`
+，此时返回的是 Promise，可以使用 `await web3.eth.getAccounts()` 转为同步调用：
+
+```shell
+truffle(development)> (await web3.eth.getAccounts())[0]
+'0x2d7c5a1BBD1c9FFFd73B3BfB6Fd1388ac84b002c'
+```
+
+首先需要使用 `truffle console` 启动控制台，然后则可以在控制台与合约交互。
+
+* 部署合约实例
+
+```shell
+truffle(development)> let instance = await MetaCoin.deployed()
+```
+
+* 获取账号
+
+```shell
+truffle(development)> let accounts = await web3.eth.getAccounts()
+```
+
+* 查询代币余额
+
+```shell
+truffle(development)> let balance = await instance.getBalance(accounts[0])
+undefined
+truffle(development)> balance.toNumber()
+10000
+```
+
+* 查询代币兑换以太币余额
+
+```shell
+truffle(development)> let ether = await instance.getBalanceInEth(accounts[0])
+undefined
+truffle(development)> ether.toNumber()
+20000
+```
+
+* 账户转账
+
+```shell
+truffle(development)> instance.sendCoin(accounts[1], 500) 
+truffle(development)> let received = await instance.getBalance(accounts[1])
+truffle(development)> received.toNumber()
+500
+```
+
+这里向accounts[1]转账500代币，然后查询余额。
+
+* 转账后余额查询
+
+```shell
+truffle(development)> let newBalance = await instance.getBalance(accounts[0])
+undefined
+truffle(development)> newBalance.toNumber()
+9500
+```
+
+accounts[0]的余额变成了9500。
