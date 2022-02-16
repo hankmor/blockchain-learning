@@ -1,4 +1,4 @@
-// 这是一个用Solidity编写的测试用例文件，用来检查合约是否像预期一样工作。
+// 这是一个用Solidity编写的测试用例文件，使用 JavaScript api 的方式来测试智能合约，检查合约是否像预期一样工作。
 
 const MetaCoin = artifacts.require("MetaCoin");
 
