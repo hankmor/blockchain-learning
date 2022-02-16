@@ -1,6 +1,6 @@
 pragma solidity >=0.4.25 <0.7.0;
 
-// 这是一个用Solidity编写的测试用例文件，用来检查合约是否像预期一样工作。
+// 这是一个用Solidity编写的测试用例文件，用来测试智能合约，检查合约是否像预期一样工作。
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
