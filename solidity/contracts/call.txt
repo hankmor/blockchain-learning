@@ -1,0 +1,11 @@
+测试合约的 call 和delegatecall 调用的 msg.sender、tx.origin、this 的变化情况。
+
+1、$ truffle develop
+然后执行 migrate 开始部署合约，完成后合约地址如下：
+
+calledContract: 0x1ac0d00fe09C03c6EaD347506d699351eEFde3Cd
+calledLibrary : 0x58f4B6a1Db62F9e1D899A6e9A2597BCdc92c02E4
+caller        : 0x0d75137810a0B3B8C80b7aA46548D0c97A6Db186
+
+2、
+调用：
