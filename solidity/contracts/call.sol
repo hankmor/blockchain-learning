@@ -26,10 +26,10 @@ contract Caller {
         bool success;
         bytes memory result;
         // 使用 call 调用它们
-        (success, result) = address(_calledContract).call(abi.encode(bytes4(keccak256("calledFunction()"))));
-        require(success);
-        (success, result) = address(CalledLibrary).call(abi.encode(bytes4(keccak256("calledFunction()"))));
-        require(success);
+//        (success, result) = address(_calledContract).call(abi.encode(bytes4(keccak256("calledFunction()"))));
+//        require(success);
+//        (success, result) = address(CalledLibrary).call(abi.encode(bytes4(keccak256("calledFunction()"))));
+//        require(success);
 
         // 使用 delegatecall 调用它们
         (success, result) = address(_calledContract).delegatecall(abi.encode(bytes4(keccak256("calledFunction()"))));
@@ -38,9 +38,9 @@ contract Caller {
         require(success);
 
         // 使用 staticcall 调用它们
-        (success, result) = address(_calledContract).staticcall(abi.encode(bytes4(keccak256("calledFunction()"))));
-        require(success);
-        (success, result) = address(CalledLibrary).staticcall(abi.encode(bytes4(keccak256("calledFunction()"))));
-        require(success);
+//        (success, result) = address(_calledContract).staticcall(abi.encode(bytes4(keccak256("calledFunction()"))));
+//        require(success);
+//        (success, result) = address(CalledLibrary).staticcall(abi.encode(bytes4(keccak256("calledFunction()"))));
+//        require(success);
     }
 }
