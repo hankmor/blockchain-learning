@@ -14,17 +14,27 @@ import (
 	"github.com/btcsuite/btcd/wire"
 )
 
+//
+// 创建原始交易示例
+//
+
 type Transaction struct {
-	TxId               string `json:"txid"`
-	SourceAddress      string `json:"source_address"`
-	DestinationAddress string `json:"destination_address"`
-	Amount             int64  `json:"amount"`
-	UnsignedTx         string `json:"unsignedtx"`
-	SignedTx           string `json:"signedtx"`
+	TxId               string `json:"txid"`                // 交易id
+	SourceAddress      string `json:"source_address"`      // 原始地址
+	DestinationAddress string `json:"destination_address"` // 目标地址
+	Amount             int64  `json:"amount"`              // 交易金额
+	UnsignedTx         string `json:"unsignedtx"`          // 未签名的交易
+	SignedTx           string `json:"signedtx"`            // 已签名的交易
 }
 
+// CreateTransaction 创建原始交易
+// serect WIF格式的私钥
+// destination 目标地址
+// amount 金额
+// txHash 原始UTXO的txid
 func CreateTransaction(secret string, destination string, amount int64, txHash string) (Transaction, error) {
 	var transaction Transaction
+	// 
 	wif, err := btcutil.DecodeWIF(secret)
 	if err != nil {
 		return Transaction{}, err
