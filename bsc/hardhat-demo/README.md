@@ -61,3 +61,60 @@ Verify the contract:
 ```shell
 npx hardhat verify --network sepolia <contract_address>
 ```
+
+### BSC Test Script
+
+```shell
+npx hardhat run scripts/bsc-test.ts
+```
+
+### Call the contract
+
+Quick call the contract:
+
+```shell
+# Start the local node
+npx hardhat node
+# Call the contract
+npx hardhat run scripts/quick-call.ts --network localhost
+```
+
+Call deployed contract on bsc testnet:
+
+```shell
+npx hardhat run scripts/call-deployed-contract.ts
+```
+
+### Check the contract
+
+```shell
+npx hardhat run scripts/check-contract.ts
+```
+
+### Verify the contract
+
+```shell
+npx hardhat verify <contract_address>
+```
+
+## Managing Secrets
+
+The sepolia network configuration uses an encrypted secret for its RPC URL and private key:
+
+```ts
+networks: {
+  sepolia: {
+    type: "http",
+    chainType: "l1",
+    url: configVariable("SEPOLIA_RPC_URL"),
+    accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+  },
+},
+```
+
+Run the following tasks to add these secrets:
+
+```shell
+npx hardhat keystore set SEPOLIA_RPC_URL
+npx hardhat keystore set SEPOLIA_PRIVATE_KEY
+```

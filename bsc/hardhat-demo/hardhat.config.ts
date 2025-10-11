@@ -6,7 +6,6 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import "@nomicfoundation/hardhat-verify";
 
 // 在 ES Module 中获取 __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -46,6 +45,11 @@ const config = {
       type: "edr-simulated",
       chainType: "op",
     },
+    localhost: {
+      type: "http",
+      chainType: "l1",
+      url: "http://127.0.0.1:8545",
+    },
     sepolia: {
       type: "http",
       chainType: "l1",
@@ -61,21 +65,27 @@ const config = {
     },
   },
   // 配置区块链浏览器 API（用于合约验证）
+  // 使用 Etherscan Multichain API - 一个 Key 支持 60+ 链
   etherscan: {
     apiKey: {
-      bscTestnet: process.env.BSCSCAN_API_KEY || "",
+      // Ethereum 网络
+      mainnet: process.env.ETHERSCAN_API_KEY || "",
       sepolia: process.env.ETHERSCAN_API_KEY || "",
+      // BSC 网络（优先使用 Multichain API Key）
+      bscTestnet: process.env.ETHERSCAN_API_KEY || process.env.BSCSCAN_API_KEY || "",
     },
-    customChains: [
-      {
-        network: "bscTestnet",
-        chainId: 97,
-        urls: {
-          apiURL: "https://api-testnet.bscscan.com/api",
-          browserURL: "https://testnet.bscscan.com",
-        },
-      },
-    ],
+    chainDescriptors: {
+      97: {
+        name: "bscTestnet",
+        blockExplorerUrl: {
+          etherscan: {
+            name: "bscTestnet", 
+            url: "https://testnet.bscscan.com",
+            apiURL: "https://api-testnet.bscscan.com/api",
+          }
+        }
+      }
+    },
   },
 };
 
