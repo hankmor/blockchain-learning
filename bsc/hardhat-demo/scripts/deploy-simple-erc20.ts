@@ -25,18 +25,22 @@ async function main() {
     // 代币参数
     const tokenName = "MOCK";
     const tokenSymbol = "MOCK";
+    const totalSupply = 100_000_000n;
+    const decimals = 18;
     
     console.log(`\n📝 代币信息:`);
     console.log(`   名称: ${tokenName}`);
     console.log(`   符号: ${tokenSymbol}`);
-    console.log(`   初始供应量: 1,000,000 MTT (自动铸造给部署者)`);
+    console.log(`   初始供应量: ${totalSupply} ${tokenSymbol} (自动铸造给部署者)`);
 
     console.log("\n⏳ 正在部署 HandwrittenERC20 合约...");
     
     // 部署基础 ERC20 合约
     const token = await viem.deployContract("HandwrittenERC20", [
         tokenName,
-        tokenSymbol
+        tokenSymbol,    
+        totalSupply,
+        decimals
     ]);
 
     console.log("\n✅ 代币部署成功！");
@@ -51,16 +55,16 @@ async function main() {
     console.log(`   部署者余额: ${formatEther(deployerBalance)} MTT`);
     
     // 查询总供应量
-    const totalSupply = await token.read.totalSupply();
-    console.log(`   总供应量: ${formatEther(totalSupply)} MTT`);
+    const readTotalSupply = await token.read.totalSupply();
+    console.log(`   总供应量: ${formatEther(readTotalSupply)} MTT`);
     
     // 查询代币信息
     const name = await token.read.name();
     const symbol = await token.read.symbol();
-    const decimals = await token.read.decimals();
+    const readDecimals = await token.read.decimals();
     console.log(`   代币名称: ${name}`);
     console.log(`   代币符号: ${symbol}`);
-    console.log(`   小数位数: ${decimals}`);
+    console.log(`   小数位数: ${readDecimals}`);
 
     console.log("\n✨ 部署完成！");
     console.log(`\n📝 代币信息:`);

@@ -43,13 +43,16 @@ contract HandwrittenERC20 {
     // 构造函数
     // ============================================
     
-    constructor(string memory _name, string memory _symbol) {
+    constructor(string memory _name, string memory _symbol, uint256 _initSupply, uint8 _decimals) {
+        require(_decimals > 0, "Decimals must be greater than 0");
+        require(_initSupply > 0, "Total supply must be greater than 0");
         name = _name;
         symbol = _symbol;
-        decimals = 18;
-        
+        decimals = _decimals;
+        _totalSupply = _initSupply;
+
         // 铸造初始供应量给部署者
-        _mint(msg.sender, 1000000 * 10**decimals);
+        _mint(msg.sender, _initSupply * 10**_decimals);
     }
     
     // ============================================
@@ -151,6 +154,7 @@ contract HandwrittenERC20 {
      */
     function _mint(address account, uint256 amount) internal {
         require(account != address(0), "Mint to zero address");
+        require(amount > 0, "Mint amount must be greater than 0");
         
         _totalSupply += amount;
         _balances[account] += amount;
@@ -217,7 +221,7 @@ contract Ownable {
 }
 
 contract MintableBurnableToken is HandwrittenERC20, Ownable {
-    constructor(string memory _name, string memory _symbol) HandwrittenERC20(_name, _symbol) {}
+    constructor(string memory _name, string memory _symbol, uint256 _totalSupply, uint8 _decimals) HandwrittenERC20(_name, _symbol, _totalSupply, _decimals) {}
     
     /**
      * @dev 只有 owner 可以铸造新代币
@@ -250,7 +254,7 @@ contract TokenExample {
     HandwrittenERC20 public token;
     
     constructor() {
-        token = new HandwrittenERC20("Example Token", "EXT");
+        token = new HandwrittenERC20("Example Token", "EXT", 1000000, 18);
     }
     
     function exampleUsage() public {
