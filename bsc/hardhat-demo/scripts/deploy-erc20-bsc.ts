@@ -17,10 +17,10 @@ async function main() {
     console.log("💰 账户余额:", formatEther(balance), "BNB");
 
     // 代币参数
-    const tokenName = "MyTestToken";
-    const tokenSymbol = "MTT";
+    const tokenName = "Elon Musk Token";
+    const tokenSymbol = "ELONMUSK";
     const totalSupply = 100_000_000n;
-    const decimals = 18;
+    const decimals = 8;
     
     console.log(`\n📝 代币信息:`);
     console.log(`   名称: ${tokenName}`);
