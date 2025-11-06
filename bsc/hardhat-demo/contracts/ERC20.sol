@@ -82,7 +82,7 @@ contract HandwrittenERC20 {
      * 
      * 触发 Transfer 事件
      */
-    function transfer(address to, uint256 amount) public returns (bool) {
+    function transfer(address to, uint256 amount) public virtual payable returns (bool) {
         address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;
@@ -115,7 +115,7 @@ contract HandwrittenERC20 {
      * 触发 Transfer 事件
      * 更新授权额度
      */
-    function transferFrom(address from, address to, uint256 amount) public returns (bool) {
+    function transferFrom(address from, address to, uint256 amount) public virtual payable returns (bool) {
         address spender = msg.sender;
         
         // 检查并减少授权额度
