@@ -1,4 +1,3 @@
-import hre from "hardhat";
 import { parseAbi, formatEther, parseEther, getContract, createWalletClient, createPublicClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { bscTestnet } from "viem/chains";
@@ -20,8 +19,8 @@ const ERC20_NATIVE_FEE_ABI = parseAbi([
 ]);
 
 async function main() {
-  // 获取配置
-  const config = hre.network.config;
+  // 从环境变量获取配置
+  const rpcUrl = process.env.BSC_TESTNET_RPC_URL || "https://data-seed-prebsc-1-s1.bnbchain.org:8545";
   const privateKey = process.env.BSC_TESTNET_PRIVATE_KEY;
   
   if (!privateKey) {
@@ -33,13 +32,13 @@ async function main() {
   // 创建客户端
   const publicClient = createPublicClient({
     chain: bscTestnet,
-    transport: http(config.url as string),
+    transport: http(rpcUrl),
   });
 
   const walletClient = createWalletClient({
     account,
     chain: bscTestnet,
-    transport: http(config.url as string),
+    transport: http(rpcUrl),
   });
 
   console.log("发送者地址:", account.address);

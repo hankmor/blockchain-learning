@@ -59,9 +59,15 @@ const config = {
     bscTestnet: {
       type: "http",
       chainType: "l1",
-      url: process.env.BSC_TESTNET_RPC_URL || "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
-      accounts: process.env.BSC_TESTNET_PRIVATE_KEY ? [process.env.BSC_TESTNET_PRIVATE_KEY] : [],
+      url: configVariable("BSC_TESTNET_RPC_URL"),
+      accounts: [configVariable("BSC_TESTNET_PRIVATE_KEY")],
       chainId: 97,
+    },
+    baseSepolia: {
+      type: "http",
+      chainType: "l1",
+      url: configVariable("BASE_SEPOLIA_RPC_URL"),
+      accounts: [configVariable("BASE_SEPOLIA_PRIVATE_KEY")],
     },
   },
   // 配置区块链浏览器 API（用于合约验证）
@@ -69,12 +75,48 @@ const config = {
   etherscan: {
     apiKey: {
       // Ethereum 网络
-      mainnet: process.env.ETHERSCAN_API_KEY || "",
-      sepolia: process.env.ETHERSCAN_API_KEY || "",
+      eth: process.env.ETHERSCAN_API_KEY || "",
+      ethSepolia: process.env.ETHERSCAN_API_KEY || "",
       // BSC 网络（优先使用 Multichain API Key）
-      bscTestnet: process.env.ETHERSCAN_API_KEY || process.env.BSCSCAN_API_KEY || "",
+      bsc: process.env.BSCSCAN_API_KEY || "",
+      bscTestnet: process.env.BSCSCAN_API_KEY || "",
+      // Base 网络
+      base: process.env.BASE_API_KEY || "",
+      baseSepolia: process.env.BASE_API_KEY || "",
     },
     chainDescriptors: {
+      // === Ethereum 网络 ===
+      1: {
+        name: "ethereum",
+        blockExplorerUrl: {
+          etherscan: {
+            name: "ethereum",
+            url: "https://etherscan.io",
+            apiURL: "https://api.etherscan.io/api",
+          }
+        }
+      },
+      11155111: {
+        name: "sepolia",
+        blockExplorerUrl: {
+          etherscan: {
+            name: "sepolia",
+            url: "https://sepolia.etherscan.io",
+            apiURL: "https://api-sepolia.etherscan.io/api",
+          }
+        }
+      },
+      // === BSC 网络 ===
+      56: {
+        name: "bsc",
+        blockExplorerUrl: {
+          etherscan: {
+            name: "bsc",
+            url: "https://bscscan.com",
+            apiURL: "https://api.bscscan.com/api",
+          }
+        }
+      }, 
       97: {
         name: "bscTestnet",
         blockExplorerUrl: {
@@ -84,8 +126,29 @@ const config = {
             apiURL: "https://api-testnet.bscscan.com/api",
           }
         }
-      }
-    },
+      },
+      // === Base 网络 ===
+      8453: {
+        name: "base",
+        blockExplorerUrl: {
+          etherscan: {
+            name: "base",
+            url: "https://basescan.org",
+            apiURL: "https://api.basescan.org/api",
+          }
+        }
+      },
+      84532: {
+        name: "baseSepolia",
+        blockExplorerUrl: {
+          etherscan: {
+            name: "baseSepolia",
+            url: "https://sepolia.basescan.org",
+            apiURL: "https://api-sepolia.basescan.org/api",
+          }
+        }
+      },
+    }
   },
 };
 
